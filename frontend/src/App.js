@@ -13,7 +13,7 @@ function App() {
     setStatus("Downloading...");
 
     try {
-      const response = await fetch("http://localhost:8000/download", {
+      const response = await fetch("/api/download", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ url })
@@ -22,18 +22,17 @@ function App() {
       if (!response.ok) throw new Error("Download failed");
 
       const blob = await response.blob();
-const downloadUrl = window.URL.createObjectURL(blob);
-const a = document.createElement("a");
-a.href = downloadUrl;
+      const downloadUrl = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = downloadUrl;
 
-const disposition = response.headers.get("Content-Disposition");
-const match = disposition && disposition.match(/filename="(.+)"/);
-a.download = match ? match[1] : "video.mp4"; 
+      const disposition = response.headers.get("Content-Disposition");
+      const match = disposition && disposition.match(/filename="(.+)"/);
+      a.download = match ? match[1] : "video.mp4";
 
-document.body.appendChild(a);
-a.click();
-a.remove();
-
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
 
       setStatus("Download complete.");
     } catch (err) {
