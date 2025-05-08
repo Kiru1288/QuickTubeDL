@@ -1,7 +1,0 @@
-services:
-  - type: web
-    name: quicktubedl-api
-    env: python
-    buildCommand: ""
-    startCommand: bash start.sh
-    plan: free
